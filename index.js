@@ -1,14 +1,15 @@
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { Query } = require('./models/queryModel');
+const { JobApplication } = require('./models/jobApplicationModel');
+const { Contact } = require('./models/contactModel');
+const { GetInTouch } = require('./models/getIntouchModel');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
-mongoose.connect(
-	`${process.env.MONGODB_URI}`,
-);
+mongoose.connect(`${process.env.MONGODB_URI}`);
 
 const app = express();
 const port = 3000;
@@ -136,15 +137,110 @@ app.post('/api/queries', async (req, res) => {
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
-		// const selfMailOptions = {
-		//   from: 'services@qubicgen.com',
-		//   to: 'your_email@example.com', // your email
-		//   subject: 'New Query Received',
-		//   text: 'A new query has been received. Check your admin panel for details.'
-		// };
-		// await transporter.sendMail(selfMailOptions);
+		const selfMailOptions = {
+			from: 'services@qubicgen.com',
+			to: 'qubicgen@gmail.com', // your email
+			subject: 'New Query Received',
+			text: 'A new query has been received. Check your admin panel for details.',
+		};
+		await transporter.sendMail(selfMailOptions);
 
 		res.status(201).json(savedQuery);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
+app.post('/api/job-application', async (req, res) => {
+	try {
+		console.log(req.body);
+		
+		const newJobApplication = new JobApplication(req.body);
+		const savedJobApplication = await newJobApplication.save();
+
+		// Send email to client
+		const clientMailOptions = {
+			from: 'services@qubicgen.com',
+			to: `${req.body.email}`,
+			subject: 'Job Application Received',
+			text: 'Your job application has been received. We will get back to you shortly.',
+		};
+		await transporter.sendMail(clientMailOptions);
+
+		// Send email to yourself
+		const selfMailOptions = {
+			from: 'services@qubicgen.com',
+			to: 'qubicgen@gmail.com', // your email
+			subject: 'New Job Application Received',
+			text: 'A new job application has been received. Check your admin panel for details.',
+		};
+		await transporter.sendMail(selfMailOptions);
+
+		res.status(201).json(savedJobApplication);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
+
+app.post('/api/contact', async (req, res) => {
+	try {
+		console.log(req.body);
+		
+		const newContact = new Contact(req.body);
+		const savedContact = await newContact.save();
+
+		// Send email to client
+		const clientMailOptions = {
+			from: 'services@qubicgen.com',
+			to: `${req.body.email}`,
+			subject: 'Contact Form Received',
+			text: 'Your contact form has been received. We will get back to you shortly.',
+		};
+		await transporter.sendMail(clientMailOptions);
+
+		// Send email to yourself
+		const selfMailOptions = {
+			from: 'services@qubicgen.com',
+			to: 'qubicgen@gmail.com', // your email
+			subject: 'New Contact Form Received',
+			text: 'A new contact form has been received. Check your admin panel for details.',
+		};
+		await transporter.sendMail(selfMailOptions);
+
+		res.status(201).json(savedContact);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
+
+app.post('/api/getInTouch', async (req, res) => {
+	try {
+		console.log(req.body);
+		
+		const newGetInTouch = new GetInTouch(req.body);
+		const savedGetInTouch = await newGetInTouch.save();
+
+		// Send email to client
+		const clientMailOptions = {
+			from: 'services@qubicgen.com',
+			to: `${req.body.email}`,
+			subject: 'Get In Touch Form Received',
+			text: 'Your get in touch form has been received. We will get back to you shortly.',
+		};
+		await transporter.sendMail(clientMailOptions);
+
+		// Send email to yourself
+		const selfMailOptions = {
+			from: 'services@qubicgen.com',
+			to: 'qubicgen@gmail.com', // your email
+			subject: 'New Get In Touch Form Received',
+			text: 'A new get in touch form has been received. Check your admin panel for details.',
+		};
+		await transporter.sendMail(selfMailOptions);
+
+		res.status(201).json(savedGetInTouch);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}
@@ -171,6 +267,7 @@ app.get('/api/fetchData', async (req, res) => {
 		res.status(400).json({ message: error.message });
 	}
 });
+
 app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);
 });
