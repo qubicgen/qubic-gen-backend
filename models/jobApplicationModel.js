@@ -9,7 +9,6 @@ const jobApplicationSchema = new Schema({
 	linkedInURL: String,
 	githubURL: String,
 	address: String,
-	resume: String,
 	education: {
 		level: String,
 		institution: String,

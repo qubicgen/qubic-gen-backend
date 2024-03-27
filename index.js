@@ -132,8 +132,16 @@ app.post('/api/queries', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Query Received',
-			text: 'Your query has been received. We will get back to you shortly.',
-		};
+			text: `Dear ${req.body.firstName} ${req.body.lastName}, 
+	
+	We have received your query and appreciate your interest. Our team is currently reviewing your message and will provide a response shortly.
+	
+	If you have any additional information to share or questions to ask, feel free to reach out to us.
+	
+	Best regards,
+	
+	The QubicGen Team`,
+	};
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
@@ -154,7 +162,7 @@ app.post('/api/queries', async (req, res) => {
 app.post('/api/job-application', async (req, res) => {
 	try {
 		console.log(req.body);
-		
+
 		const newJobApplication = new JobApplication(req.body);
 		const savedJobApplication = await newJobApplication.save();
 
@@ -163,8 +171,16 @@ app.post('/api/job-application', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Job Application Received',
-			text: 'Your job application has been received. We will get back to you shortly.',
-		};
+			text: `Dear ${req.body.fullName}, 
+	
+	Thank you for submitting your job application. We have successfully received it and our hiring team will carefully review your application.
+	
+	We appreciate your interest in joining our team and will be in touch with you regarding the next steps in the recruitment process.
+	
+	Warm regards,
+	
+	The QubicGen Hiring Team`,
+	};
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
@@ -182,11 +198,10 @@ app.post('/api/job-application', async (req, res) => {
 	}
 });
 
-
 app.post('/api/contact', async (req, res) => {
 	try {
 		console.log(req.body);
-		
+
 		const newContact = new Contact(req.body);
 		const savedContact = await newContact.save();
 
@@ -195,7 +210,15 @@ app.post('/api/contact', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Contact Form Received',
-			text: 'Your contact form has been received. We will get back to you shortly.',
+			text: `Dear ${req.body.firstName} ${req.body.lastName}, 
+	
+	Thank you for reaching out to us. We appreciate your interest in our services. We will review your contact form and get back to you as soon as possible.
+	
+	If you have any further questions or concerns, please don't hesitate to reach out to us.
+	
+	Best regards,
+	
+	The QubicGen Team`,
 		};
 		await transporter.sendMail(clientMailOptions);
 
@@ -214,11 +237,10 @@ app.post('/api/contact', async (req, res) => {
 	}
 });
 
-
 app.post('/api/getInTouch', async (req, res) => {
 	try {
 		console.log(req.body);
-		
+
 		const newGetInTouch = new GetInTouch(req.body);
 		const savedGetInTouch = await newGetInTouch.save();
 
@@ -227,11 +249,19 @@ app.post('/api/getInTouch', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Get In Touch Form Received',
-			text: 'Your get in touch form has been received. We will get back to you shortly.',
-		};
+			text: `Dear ${req.body.fullName}, 
+	
+	Thank you for contacting us through the Get In Touch form. We have received your message and will respond promptly.
+	
+	We value your interest in our services and look forward to assisting you further.
+	
+	Warm regards,
+	
+	The QubicGen Team`,
+	};
 		await transporter.sendMail(clientMailOptions);
 
-		// Send email to yourself
+		// Send email to yourself	
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
 			to: 'qubicgen@gmail.com', // your email
