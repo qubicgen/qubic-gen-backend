@@ -33,6 +33,9 @@ const userSchema = new mongoose.Schema({
 // Create a user model
 const User = mongoose.model('User', userSchema);
 
+app.get('/', async (req, res) => {
+	res.json({ message: 'Hi qubicgen api iss working' });
+});
 // Create a route for signing up
 app.post('/api/signup', async (req, res) => {
 	const { userName, password } = req.body;
@@ -141,7 +144,7 @@ app.post('/api/queries', async (req, res) => {
 	Best regards,
 	
 	The QubicGen Team`,
-	};
+		};
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
@@ -180,7 +183,7 @@ app.post('/api/job-application', async (req, res) => {
 	Warm regards,
 	
 	The QubicGen Hiring Team`,
-	};
+		};
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
@@ -258,10 +261,10 @@ app.post('/api/getInTouch', async (req, res) => {
 	Warm regards,
 	
 	The QubicGen Team`,
-	};
+		};
 		await transporter.sendMail(clientMailOptions);
 
-		// Send email to yourself	
+		// Send email to yourself
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
 			to: 'qubicgen@gmail.com', // your email
