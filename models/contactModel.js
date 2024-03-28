@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const contactSchema = new Schema({
-	firstName: String,
-	lastName: String,
+	fullName: String,
 	email: String,
-	jobTitle: String,
-	company: String,
+	type: String,
 	phone: Number,
-	address: String,
+	details: String,
 });
 const Contact = mongoose.model('Contact', contactSchema);
 

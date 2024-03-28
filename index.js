@@ -210,7 +210,7 @@ app.post('/api/contact', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Contact Form Received',
-			text: `Dear ${req.body.firstName} ${req.body.lastName}, 
+			text: `Dear ${req.body.fullName}, 
 	
 	Thank you for reaching out to us. We appreciate your interest in our services. We will review your contact form and get back to you as soon as possible.
 	
