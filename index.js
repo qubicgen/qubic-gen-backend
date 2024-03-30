@@ -186,15 +186,18 @@ app.post('/api/queries', async (req, res) => {
 
 const type = upload.single('resume');
 app.post('/api/upload', type, (req, res) => {
-	if (!req.file) {
-		return res.status(400).json({ message: 'No file uploaded' });
+	try {
+		if (!req.file) {
+			return res.status(400).json({ message: 'No file uploaded' });
+		}
+
+		// If you need to do something with the uploaded file, you can access it in req.file
+
+		res.status(200).json({ message: 'File uploaded successfully' });
+	} catch (error) {
+		console.log(error);
+		res.status(400).json({ message: error.message });
 	}
-
-	// If you need to do something with the uploaded file, you can access it in req.file
-
-	
-
-	res.status(200).json({ message: 'File uploaded successfully' });
 });
 app.post('/api/job-application', async (req, res) => {
 	try {
@@ -271,6 +274,7 @@ app.post('/api/contact', async (req, res) => {
 
 		res.status(201).json(savedContact);
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({ message: error.message });
 	}
 });
