@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PDF Viewer</title>
+	</head>
+	<body>
+		<div>
+			<!-- This div will be used to display the PDF viewer -->
+			<div id="pdfViewer" style="width: 100%; height: 100vh"></div>
+
+			<script>
+				// Fetch the PDF URL from the backend API
+				fetch('http://localhost:3000/api/view-pdf')
+					.then((response) => response.json())
+					.then((data) => {
+						// Extract the PDF URL from the response
+						const pdfUrl = data.pdfurl;
+
+						// Construct the Google Docs Viewer URL
+						const googleDocsViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
+							pdfUrl
+						)}&embedded=true`;
+
+						// Create and append the iframe with the Google Docs Viewer URL
+						const iframe = document.createElement('iframe');
+						iframe.src = googleDocsViewerUrl;
+						iframe.style.width = '100%';
+						iframe.style.height = '100%';
+						iframe.frameBorder = '0';
+						document.getElementById('pdfViewer').appendChild(iframe);
+					})
+					.catch((error) => {
+						console.error('Error fetching PDF URL:', error);
+					});
+			</script>
+		</div>
+	</body>
+</html>

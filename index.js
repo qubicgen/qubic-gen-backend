@@ -212,16 +212,63 @@ app.post('/api/job-application', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Job Application Received',
-			text: `Dear ${req.body.fullName}, 
-	
-	Thank you for submitting your job application. We have successfully received it and our hiring team will carefully review your application.
-	
-	We appreciate your interest in joining our team and will be in touch with you regarding the next steps in the recruitment process.
-	
-	Warm regards,
-	
-	The QubicGen Hiring Team`,
+			html: `
+			<html>
+			<head>
+					<style>
+							body {
+									font-family: Arial, sans-serif;
+									margin: 0;
+									padding: 0;
+							}
+							.header {
+									text-align: center;
+							}
+							.body-content {
+									padding: 20px;
+							}
+							.footer {
+									text-align: center;
+									background-color: #f8f8f8;
+									padding: 10px;
+									margin-top: 20px;
+							}
+					</style>
+			</head>
+			<body>
+					<div class="header">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 30%; height: 30%;">
+					</div>
+					<div class="body-content">
+							<p>Dear ${req.body.fullName},</p>
+							<p>Thank you for submitting your job application. We have successfully received it and our hiring team will carefully review your application.</p>
+							<p>We appreciate your interest in joining our team and will be in touch with you regarding the next steps in the recruitment process.</p>
+							<h2>Additional Information:</h2>
+							<ul>
+									<li>Position Applied For: ${req.body.selectedJobRole}</li>
+									<li>Experience: ${req.body.workExperience.experienceLevel} years</li>
+									<li>Education: ${req.body.education.level} </li>
+							</ul>
+							<p>Feel free to reach out to us if you have any questions or require further assistance.</p>
+							<p>Best regards,</p>
+							<p>The QubicGen Hiring Team</p>
+					</div>
+					<div class="footer">
+							<p>Warm regards,</p>
+							<p>The QubicGen Hiring Team</p>
+					</div>
+			</body>
+			</html>
+			`,
+			attachments: [
+				{
+					filename: 'Qubicbg.png',
+					path: 'images/Qubicbg.png',
+					cid: 'headerImage',
+				},
+			],
 		};
+
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
