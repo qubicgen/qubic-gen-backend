@@ -1,5 +1,9 @@
 const cors = require('cors');
+const multer = require('multer');
+const upload = multer({ dest: 'upload/' });
 const mongoose = require('mongoose');
+const { GridFsStorage } = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
 const { Query } = require('./models/queryModel');
 const { JobApplication } = require('./models/jobApplicationModel');
 const { Contact } = require('./models/contactModel');
@@ -7,9 +11,11 @@ const { GetInTouch } = require('./models/getIntouchModel');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 require('dotenv').config();
 mongoose.connect(`${process.env.MONGODB_URI}`);
+const conn = mongoose.connection;
 
 const app = express();
 const port = 3000;
@@ -17,6 +23,22 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+// let gfs;
+// conn.once('open', () => {
+// 	gfs = Grid(conn.db, mongoose.mongo);
+// 	gfs.collection('uploads');
+// });
+// const storage = new GridFsStorage({
+// 	url: `${process.env.MONGODB_URI}`, // Your MongoDB connection URL
+// 	file: (req, file) => {
+// 		console.log(file);
+// 		console.log(file.originalname);
+// 		return {
+// 			filename: file.originalname,
+// 		};
+// 	},
+// });
+// const upload = multer({ storage });
 // Create a user schema
 const userSchema = new mongoose.Schema({
 	userName: {
@@ -37,24 +59,24 @@ app.get('/', async (req, res) => {
 	res.json({ message: 'Hi qubicgen api iss working' });
 });
 // Create a route for signing up
-app.post('/api/signup', async (req, res) => {
-	const { userName, password } = req.body;
+// app.post('/api/signup', async (req, res) => {
+// 	const { userName, password } = req.body;
 
-	// Hash the password
-	const hashedPassword = await bcrypt.hash(password, 10);
+// 	// Hash the password
+// 	const hashedPassword = await bcrypt.hash(password, 10);
 
-	// Create a new user
-	const user = new User({
-		userName,
-		password: hashedPassword,
-	});
+// 	// Create a new user
+// 	const user = new User({
+// 		userName,
+// 		password: hashedPassword,
+// 	});
 
-	// Save the user to the database
-	await user.save();
+// 	// Save the user to the database
+// 	await user.save();
 
-	// Send a success response
-	res.status(200).json({ message: 'User created successfully' });
-});
+// 	// Send a success response
+// 	res.status(200).json({ message: 'User created successfully' });
+// });
 
 app.post('/api/login', (request, response) => {
 	console.log(request.body);
@@ -162,11 +184,24 @@ app.post('/api/queries', async (req, res) => {
 	}
 });
 
+const type = upload.single('resume');
+app.post('/api/upload', type, (req, res) => {
+	if (!req.file) {
+		return res.status(400).json({ message: 'No file uploaded' });
+	}
+
+	// If you need to do something with the uploaded file, you can access it in req.file
+
+	
+
+	res.status(200).json({ message: 'File uploaded successfully' });
+});
 app.post('/api/job-application', async (req, res) => {
 	try {
-		console.log(req.body);
+		console.log(req.body, 'rekljaaaaa');
 
 		const newJobApplication = new JobApplication(req.body);
+		// newJobApplication.resume = req.file._id || req.file.id;
 		const savedJobApplication = await newJobApplication.save();
 
 		// Send email to client
@@ -246,6 +281,7 @@ app.post('/api/getInTouch', async (req, res) => {
 
 		const newGetInTouch = new GetInTouch(req.body);
 		const savedGetInTouch = await newGetInTouch.save();
+		console.log(savedGetInTouch);
 
 		// Send email to client
 		const clientMailOptions = {
@@ -280,6 +316,7 @@ app.post('/api/getInTouch', async (req, res) => {
 });
 
 app.get('/api/fetchData', async (req, res) => {
+	console.log('here in fetchData');
 	try {
 		const token = req.headers.authorization?.split('Bearer ')[1]; // Fix token extraction
 
@@ -291,9 +328,11 @@ app.get('/api/fetchData', async (req, res) => {
 			if (err) {
 				return res.status(401).json({ message: 'Unauthorized' });
 			}
-
-			// Token verified, proceed to fetch data
-			const data = await Query.find({});
+			const queries = await Query.find({});
+			const jobApplications = await JobApplication.find({});
+			const contacts = await Contact.find({});
+			const getInTouches = await GetInTouch.find({});
+			const data = { queries, jobApplications, contacts, getInTouches };
 			res.status(200).json(data);
 		});
 	} catch (error) {

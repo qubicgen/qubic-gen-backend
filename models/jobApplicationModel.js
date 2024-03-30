@@ -5,7 +5,7 @@ const jobApplicationSchema = new Schema({
 	selectedJobRole: String,
 	fullName: String,
 	email: String,
-	phoneNumber: Number,
+	phone: Number,
 	linkedInURL: String,
 	githubURL: String,
 	address: String,
