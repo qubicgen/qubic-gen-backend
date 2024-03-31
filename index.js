@@ -369,7 +369,7 @@ app.post('/api/contact', async (req, res) => {
 			</head>
 			<body>
 					<div class="header">
-							<img src="cid:headerImage" alt="QubicGen Header" style="width: 100%;">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.fullName},</p>
@@ -456,7 +456,7 @@ app.post('/api/getInTouch', async (req, res) => {
 			</head>
 			<body>
 					<div class="header">
-							<img src="cid:headerImage" alt="QubicGen Header" style="width: 100%;">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.fullName},</p>
