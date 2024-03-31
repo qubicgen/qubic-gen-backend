@@ -7,7 +7,7 @@ const querySchema = new Schema({
 	jobTitle: String,
 	company: String,
 	phone: Number,
-	address: String,
+	message: String,
 });
 const Query = mongoose.model('Query', querySchema);
 

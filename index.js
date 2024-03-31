@@ -157,16 +157,61 @@ app.post('/api/queries', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Query Received',
-			text: `Dear ${req.body.firstName} ${req.body.lastName}, 
-	
-	We have received your query and appreciate your interest. Our team is currently reviewing your message and will provide a response shortly.
-	
-	If you have any additional information to share or questions to ask, feel free to reach out to us.
-	
-	Best regards,
-	
-	The QubicGen Team`,
+			html: `
+			<html>
+			<head>
+					<style>
+							body {
+									font-family: Arial, sans-serif;
+									margin: 0;
+									padding: 0;
+							}
+							.header {
+									text-align: center;
+									background-color: #f8f8f8;
+							}
+							.body-content {
+									padding: 20px;
+							}
+							.footer {
+									text-align: center;
+									background-color: #f8f8f8;
+									padding: 10px;
+									margin-top: 20px;
+							}
+					</style>
+			</head>
+			<body>
+					<div class="header">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;>
+					</div>
+					<div class="body-content">
+							<p>Dear ${req.body.firstName} ${req.body.lastName},</p>
+							<p>We have received your query and appreciate your interest. Our team is currently reviewing your message and will provide a response shortly.</p>
+							<p>If you have any additional information to share or questions to ask, feel free to reach out to us.</p>
+							<h2>Additional Information:</h2>
+							<ul>
+									<li>Query Details: ${req.body.message}</li>
+							</ul>
+							<p>Best regards,</p>
+							<p>The QubicGen Team</p>
+					</div>
+					<div class="footer">
+							<p>Warm regards,</p>
+							<p>The QubicGen Team</p>
+					</div>
+			</body>
+			</html>
+			`,
+			attachments: [
+				{
+					filename: 'Qubicbg.png',
+					path: 'images/Qubicbg.png',
+					cid: 'headerImage',
+				},
+			],
 		};
+
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
@@ -180,6 +225,7 @@ app.post('/api/queries', async (req, res) => {
 
 		res.status(201).json(savedQuery);
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({ message: error.message });
 	}
 });
@@ -237,7 +283,7 @@ app.post('/api/job-application', async (req, res) => {
 			</head>
 			<body>
 					<div class="header">
-							<img src="cid:headerImage" alt="QubicGen Header" style="width: 30%; height: 30%;">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;>
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.fullName},</p>
@@ -275,8 +321,8 @@ app.post('/api/job-application', async (req, res) => {
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
 			to: 'qubicgen@gmail.com', // your email
-			subject: 'New Job Application Received',
-			text: 'A new job application has been received. Check your admin panel for details.',
+			subject: `New Job Application Received - ${req.body.fullName}`,
+			text: `A new job application has been received. Check your admin panel for details from ${req.body.email}.`,
 		};
 		await transporter.sendMail(selfMailOptions);
 
@@ -298,24 +344,70 @@ app.post('/api/contact', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Contact Form Received',
-			text: `Dear ${req.body.fullName}, 
-	
-	Thank you for reaching out to us. We appreciate your interest in our services. We will review your contact form and get back to you as soon as possible.
-	
-	If you have any further questions or concerns, please don't hesitate to reach out to us.
-	
-	Best regards,
-	
-	The QubicGen Team`,
+			html: `
+			<html>
+			<head>
+					<style>
+							body {
+									font-family: Arial, sans-serif;
+									margin: 0;
+									padding: 0;
+							}
+							.header {
+									text-align: center;
+							}
+							.body-content {
+									padding: 20px;
+							}
+							.footer {
+									text-align: center;
+									background-color: #f8f8f8;
+									padding: 10px;
+									margin-top: 20px;
+							}
+					</style>
+			</head>
+			<body>
+					<div class="header">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 100%;">
+					</div>
+					<div class="body-content">
+							<p>Dear ${req.body.fullName},</p>
+							<p>Thank you for reaching out to us. We appreciate your interest in our services.</p>
+							<p>We have received your contact form and our team will review it promptly.</p>
+							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
+							<h2>Contact Form Details:</h2>
+							<ul>
+									<li>Contact Type: ${req.body.type}</li>
+									<li>Contact Message: ${req.body.message}</li>
+							</ul>
+							<p>Best regards,</p>
+							<p>The QubicGen Team</p>
+					</div>
+					<div class="footer">
+							<p>Warm regards,</p>
+							<p>The QubicGen Team</p>
+					</div>
+			</body>
+			</html>
+			`,
+			attachments: [
+				{
+					filename: 'Qubicbg.png',
+					path: 'images/Qubicbg.png',
+					cid: 'headerImage',
+				},
+			],
 		};
+
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
-			to: 'qubicgen@gmail.com', // your email
+			to: 'qubicgen@gmail.com',
 			subject: 'New Contact Form Received',
-			text: 'A new contact form has been received. Check your admin panel for details.',
+			text: `A new contact form has been received. Check your admin panel for details. From ${req.body.email}`,
 		};
 		await transporter.sendMail(selfMailOptions);
 
@@ -339,16 +431,61 @@ app.post('/api/getInTouch', async (req, res) => {
 			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Get In Touch Form Received',
-			text: `Dear ${req.body.fullName}, 
-	
-	Thank you for contacting us through the Get In Touch form. We have received your message and will respond promptly.
-	
-	We value your interest in our services and look forward to assisting you further.
-	
-	Warm regards,
-	
-	The QubicGen Team`,
+			html: `
+			<html>
+			<head>
+					<style>
+							body {
+									font-family: Arial, sans-serif;
+									margin: 0;
+									padding: 0;
+							}
+							.header {
+									text-align: center;
+							}
+							.body-content {
+									padding: 20px;
+							}
+							.footer {
+									text-align: center;
+									background-color: #f8f8f8;
+									padding: 10px;
+									margin-top: 20px;
+							}
+					</style>
+			</head>
+			<body>
+					<div class="header">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 100%;">
+					</div>
+					<div class="body-content">
+							<p>Dear ${req.body.fullName},</p>
+							<p>Thank you for contacting us through the Get In Touch form.</p>
+							<p>We have received your message and will respond promptly.</p>
+							<p>We value your interest in our services and look forward to assisting you further.</p>
+							<h2>Get In Touch Form Details:</h2>
+							<ul>
+									<li>Contact Message: ${req.body.message}</li>
+							</ul>
+							<p>Best regards,</p>
+							<p>The QubicGen Team</p>
+					</div>
+					<div class="footer">
+							<p>Warm regards,</p>
+							<p>The QubicGen Team</p>
+					</div>
+			</body>
+			</html>
+			`,
+			attachments: [
+				{
+					filename: 'Qubicbg.png',
+					path: 'images/Qubicbg.png',
+					cid: 'headerImage',
+				},
+			],
 		};
+
 		await transporter.sendMail(clientMailOptions);
 
 		// Send email to yourself
