@@ -6,7 +6,6 @@ const contactSchema = new Schema({
 	email: String,
 	jobTitle: String,
 	company: String,
-	phone: Number,
 	type: String,
 	phone: Number,
 	message: String,
