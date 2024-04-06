@@ -9,9 +9,12 @@ const querySchema = new Schema({
 	phone: Number,
 	message: String,
 	date: {
-		type: Date,
-		default: Date.now,
-	},
+        type: Date,
+        default: () => {
+            const ISTOffset = 330 * 60 * 1000; // Offset in milliseconds for IST (UTC+5:30)
+            const dateIST = new Date(Date.now() + ISTOffset);
+            return dateIST;
+        },
 });
 const Query = mongoose.model('Query', querySchema);
 
