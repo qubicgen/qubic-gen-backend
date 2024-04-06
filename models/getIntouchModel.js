@@ -5,6 +5,10 @@ const getInTouchSchema = new Schema({
 	fullName: String,
 	email: String,
 	message: String,
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 });
 const GetInTouch = mongoose.model('GetInTouch', getInTouchSchema);
 

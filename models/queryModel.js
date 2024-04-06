@@ -8,6 +8,10 @@ const querySchema = new Schema({
 	company: String,
 	phone: Number,
 	message: String,
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 });
 const Query = mongoose.model('Query', querySchema);
 

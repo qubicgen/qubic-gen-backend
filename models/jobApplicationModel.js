@@ -21,6 +21,10 @@ const jobApplicationSchema = new Schema({
 		jobTitle: String,
 		responsibilities: String,
 	},
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 const JobApplication = mongoose.model('JobApplication', jobApplicationSchema);

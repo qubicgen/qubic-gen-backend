@@ -9,7 +9,10 @@ const contactSchema = new Schema({
 	type: String,
 	phone: Number,
 	message: String,
-
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 });
 const Contact = mongoose.model('Contact', contactSchema);
 
