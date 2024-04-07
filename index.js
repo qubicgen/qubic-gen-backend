@@ -1,6 +1,6 @@
 const cors = require('cors');
 const multer = require('multer');
-const upload = multer({ dest: 'upload/' });
+// const upload = multer({ dest: 'resumes/' });
 const mongoose = require('mongoose');
 const { GridFsStorage } = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
@@ -11,7 +11,9 @@ const { GetInTouch } = require('./models/getIntouchModel');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const { ObjectId } = require('mongoose').Types;
 
 require('dotenv').config();
 mongoose.connect(`${process.env.MONGODB_URI}`);
@@ -23,22 +25,20 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// let gfs;
-// conn.once('open', () => {
-// 	gfs = Grid(conn.db, mongoose.mongo);
-// 	gfs.collection('uploads');
-// });
-// const storage = new GridFsStorage({
-// 	url: `${process.env.MONGODB_URI}`, // Your MongoDB connection URL
-// 	file: (req, file) => {
-// 		console.log(file);
-// 		console.log(file.originalname);
-// 		return {
-// 			filename: file.originalname,
-// 		};
-// 	},
-// });
-// const upload = multer({ storage });
+let gfs;
+const uploadDirectory = './uploads';
+conn.once('open', () => {
+	gfs = Grid(conn.db, mongoose.mongo);
+	gfs.collection('uploads');
+});
+const storage = multer.diskStorage({
+	destination: uploadDirectory,
+	filename: function (req, file, cb) {
+		const uniqueFilename = uuidv4(); // Generate a unique filename
+		cb(null, uniqueFilename + '.pdf'); // Append .pdf extension to the filename
+	},
+});
+const upload = multer({ storage });
 // Create a user schema
 const userSchema = new mongoose.Schema({
 	userName: {
@@ -217,7 +217,7 @@ app.post('/api/queries', async (req, res) => {
 		// Send email to yourself
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
-			to: 'qubicgen@gmail.com', // your email
+			to: 'support@qubicgen.com', // your email
 			subject: 'New Query Received',
 			text: 'A new query has been received. Check your admin panel for details.',
 		};
@@ -237,12 +237,37 @@ app.post('/api/upload', type, (req, res) => {
 			return res.status(400).json({ message: 'No file uploaded' });
 		}
 
-		// If you need to do something with the uploaded file, you can access it in req.file
-
-		res.status(200).json({ message: 'File uploaded successfully' });
+		res.status(200).json({
+			message: 'File uploaded successfully',
+			fileName: req.file.filename,
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(400).json({ message: error.message });
+	}
+});
+
+app.get('/api/resume-download', (req, res) => {
+	try {
+		const { fileName } = req.query;
+		const filePath = `${uploadDirectory}/${fileName}`;
+		console.log(filePath);
+		// Check if the file exists
+		if (!fs.existsSync(filePath)) {
+			return res.status(404).json({ message: 'Resume not found' });
+		}
+
+		// Set appropriate headers for downloading the file
+		res.set({
+			'Content-Type': 'application/pdf',
+			'Content-Disposition': `attachment; filename="${fileName}"`,
+		});
+
+		// Send the file as the response
+		fs.createReadStream(filePath).pipe(res);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Internal server error' });
 	}
 });
 app.post('/api/job-application', async (req, res) => {
@@ -320,7 +345,7 @@ app.post('/api/job-application', async (req, res) => {
 		// Send email to yourself
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
-			to: 'qubicgen@gmail.com', // your email
+			to: 'support@qubicgen.com', // your email
 			subject: `New Job Application Received - ${req.body.fullName}`,
 			text: `A new job application has been received. Check your admin panel for details from ${req.body.email}.`,
 		};
@@ -405,7 +430,7 @@ app.post('/api/contact', async (req, res) => {
 		// Send email to yourself
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
-			to: 'qubicgen@gmail.com',
+			to: 'support@qubicgen.com',
 			subject: 'New Contact Form Received',
 			text: `A new contact form has been received. Check your admin panel for details. From ${req.body.email}`,
 		};
@@ -491,7 +516,7 @@ app.post('/api/getInTouch', async (req, res) => {
 		// Send email to yourself
 		const selfMailOptions = {
 			from: 'services@qubicgen.com',
-			to: 'qubicgen@gmail.com', // your email
+			to: 'support@qubicgen.com', // your email
 			subject: 'New Get In Touch Form Received',
 			text: 'A new get in touch form has been received. Check your admin panel for details.',
 		};

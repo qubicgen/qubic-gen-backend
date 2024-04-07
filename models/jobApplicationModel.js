@@ -29,6 +29,7 @@ const jobApplicationSchema = new Schema({
 			return dateIST;
 		},
 	},
+	resumeId: String,
 });
 
 const JobApplication = mongoose.model('JobApplication', jobApplicationSchema);
