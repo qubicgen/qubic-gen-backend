@@ -154,7 +154,7 @@ app.post('/api/queries', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Query Received',
 			html: `
