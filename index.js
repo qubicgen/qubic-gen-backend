@@ -216,7 +216,7 @@ app.post('/api/queries', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: 'support@qubicgen.com', // your email
 			subject: 'New Query Received',
 			text: 'A new query has been received. Check your admin panel for details.',
@@ -354,7 +354,7 @@ app.post('/api/job-application', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: 'support@qubicgen.com', // your email
 			subject: `New Job Application Received - ${req.body.fullName}`,
 			text: `A new job application has been received. Check your admin panel for details from ${req.body.email}.`,
@@ -376,7 +376,7 @@ app.post('/api/contact', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Contact Form Received',
 			html: `
@@ -439,7 +439,7 @@ app.post('/api/contact', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: 'support@qubicgen.com',
 			subject: 'New Contact Form Received',
 			text: `A new contact form has been received. Check your admin panel for details. From ${req.body.email}`,
@@ -463,7 +463,7 @@ app.post('/api/getInTouch', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Get In Touch Form Received',
 			html: `
@@ -525,7 +525,7 @@ app.post('/api/getInTouch', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: 'support@qubicgen.com', // your email
 			subject: 'New Get In Touch Form Received',
 			text: 'A new get in touch form has been received. Check your admin panel for details.',
