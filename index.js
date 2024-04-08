@@ -290,7 +290,7 @@ app.post('/api/job-application', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: 'support@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Job Application Received',
 			html: `
