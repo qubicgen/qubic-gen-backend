@@ -154,9 +154,9 @@ app.post('/api/queries', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'support@qubicgen.com',
+			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
-			subject: 'Queriess Receivinggggg',
+			subject: 'Queries Received',
 			html: `
 			<html>
 			<head>
@@ -201,23 +201,21 @@ app.post('/api/queries', async (req, res) => {
 
 							<p>
 
-							For immediate assistance, feel free to contact us directly at <a href="mailto:support@qubicgen.com">support@qubicgen.com</a>
+							For immediate assistance, feel free to contact us directly at <a href="mailto:services@qubicgen.com">services@qubicgen.com</a>
 							</p>
-							<h2>Additional Information:</h2>
 							<ul>
 									<li>Query Details: ${req.body.message}</li>
 							</ul>
-							<p>Best regards,</p>
-							<p>The QubicGen Team</p>
+							
+							<div class="footer">
+			<p>Warm regards,</p>
+			<p>The QubicGen Team</p>
+			<p>Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a></p>
+			<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
+			<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>
+		</div>
 					</div>
 
-					<div class="footer">
-    <p>Warm regards,</p>
-    <p>The QubicGen Team</p>
-    <p>Mail: <a href="mailto:support@qubicgen.com">support@qubicgen.com</a></p>
-    <p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
-    <p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>
-</div>
 
 			</body>
 			</html>
@@ -235,8 +233,8 @@ app.post('/api/queries', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'support@qubicgen.com',
-			to: 'support@qubicgen.com', // your email
+			from: 'services@qubicgen.com',
+			to: 'services@qubicgen.com', // your email
 			subject: 'New Query Received',
 			text: 'A new query has been received. Check your admin panel for details.',
 		};
@@ -309,9 +307,9 @@ app.post('/api/job-application', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'support@qubicgen.com',
+			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
-			subject: 'Job Application Received',
+			subject: `Application Received: ${req.body.fullName} at QubicGen`,
 			html: `
 			<html>
 			<head>
@@ -341,21 +339,41 @@ app.post('/api/job-application', async (req, res) => {
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.fullName},</p>
-							<p>Thank you for submitting your job application. We have successfully received it and our hiring team will carefully review your application.</p>
-							<p>We appreciate your interest in joining our team and will be in touch with you regarding the next steps in the recruitment process.</p>
+							<p>
+
+							Thank you for applying for the ${req.body.selectedJobRole} position at QubicGen. We've received your application and are in the process of reviewing it.
+							</p>
+
+							<p>
+
+							If your profile matches our requirements, we'll contact you shortly to discuss the next steps. In the meantime, feel free to explore our work and culture on our website and social media channels. 
+
+							</p>
+							<P>
+
+							We appreciate your interest in joining our team and wish you the best in your job search. 
+
+							</P>
 							<h2>Additional Information:</h2>
 							<ul>
+							
+									<li>FullName: ${req.body.fullName}</li>
+									<li>Email: ${req.body.email}</li>
+									<li>Phone: ${req.body.phone}</li>
 									<li>Position Applied For: ${req.body.selectedJobRole}</li>
 									<li>Experience: ${req.body.workExperience.experienceLevel} years</li>
 									<li>Education: ${req.body.education.level} </li>
 							</ul>
-							<p>Feel free to reach out to us if you have any questions or require further assistance.</p>
-							<p>Best regards,</p>
-							<p>The QubicGen Hiring Team</p>
+							
 					</div>
 					<div class="footer">
 							<p>Warm regards,</p>
 							<p>The QubicGen Hiring Team</p>
+						
+							<p>Mail: <a href="mailto:support@qubicgen.com">support@qubicgen.com</a></p>
+							<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
+							
+							<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
 					</div>
 			</body>
 			</html>
@@ -373,8 +391,8 @@ app.post('/api/job-application', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'support@qubicgen.com',
-			to: 'support@qubicgen.com', // your email
+			from: 'services@qubicgen.com',
+			to: 'services@qubicgen.com', // your email
 			subject: `New Job Application Received - ${req.body.fullName}`,
 			text: `A new job application has been received. Check your admin panel for details from ${req.body.email}.`,
 		};
@@ -395,7 +413,7 @@ app.post('/api/contact', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'support@qubicgen.com',
+			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Contact Form Received',
 			html: `
@@ -458,8 +476,8 @@ app.post('/api/contact', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'support@qubicgen.com',
-			to: 'support@qubicgen.com',
+			from: 'services@qubicgen.com',
+			to: 'services@qubicgen.com',
 			subject: 'New Contact Form Received',
 			text: `A new contact form has been received. Check your admin panel for details. From ${req.body.email}`,
 		};
@@ -472,6 +490,8 @@ app.post('/api/contact', async (req, res) => {
 	}
 });
 
+
+
 app.post('/api/getInTouch', async (req, res) => {
 	try {
 		console.log(req.body);
@@ -482,9 +502,9 @@ app.post('/api/getInTouch', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'support@qubicgen.com',
+			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
-			subject: 'Get In Touch Form Received',
+			subject: 'Thank You for Getting in Touch with QubicGen! ',
 			html: `
 			<html>
 			<head>
@@ -514,19 +534,48 @@ app.post('/api/getInTouch', async (req, res) => {
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.fullName},</p>
-							<p>Thank you for contacting us through the Get In Touch form.</p>
-							<p>We have received your message and will respond promptly.</p>
-							<p>We value your interest in our services and look forward to assisting you further.</p>
+							<p>
+
+							We're delighted to let you know that we've received your message through our "Get In Touch With Us" form. Thank you for reaching out! 
+
+							</p>
+
+							<p>
+
+							At QubicGen, every question, feedback, or comment is important to us. We're here to provide you with the information and assistance you need. Our team is currently reviewing your submission, and we aim to get back to you as promptly as possible. Typically, we respond within 24 hours, but during busy periods, it might take a bit longer. 
+							
+							</p>
+
+							<p>
+
+							For immediate assistance, feel free to contact us directly at <a href="mailto:support@qubicgen.com">support@qubicgen.com</a>							
+							</p>
+
+							<p>
+
+							Thank you once again for reaching out. We look forward to speaking with you soon and are excited about the opportunity to assist you. 
+							</p>
 							<h2>Get In Touch Form Details:</h2>
 							<ul>
+
+									<li>Full Name: ${req.body.fullName}</li>
+									<li>Email : ${req.body.email}</li>
 									<li>Contact Message: ${req.body.message}</li>
 							</ul>
 							<p>Best regards,</p>
-							<p>The QubicGen Team</p>
-					</div>
-					<div class="footer">
-							<p>Warm regards,</p>
-							<p>The QubicGen Team</p>
+							<div class="footer">
+									<p>Warm regards,</p>
+
+									<ul>
+
+									<p>mail: support@qubicgen.com </p>
+									<p>Mob. No: +91 9649749845 </p>
+									<p>www.qubicgen.com</p>
+							</ul>
+									
+									
+													
+							</div>
 					</div>
 			</body>
 			</html>
@@ -544,8 +593,8 @@ app.post('/api/getInTouch', async (req, res) => {
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'support@qubicgen.com',
-			to: 'support@qubicgen.com', // your email
+			from: 'services@qubicgen.com',
+			to: 'services@qubicgen.com', // your email
 			subject: 'New Get In Touch Form Received',
 			text: 'A new get in touch form has been received. Check your admin panel for details.',
 		};
