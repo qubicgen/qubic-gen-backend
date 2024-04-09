@@ -182,13 +182,27 @@ app.post('/api/queries', async (req, res) => {
 					</style>
 			</head>
 			<body>
+
+
 					<div class="header">
 							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;>
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.firstName} ${req.body.lastName},</p>
-							<p>We have received your query and appreciate your interest. Our team is currently reviewing your message and will provide a response shortly.</p>
-							<p>If you have any additional information to share or questions to ask, feel free to reach out to us.</p>
+							<p>
+
+							Thank you for reaching out to us with your query through our "Any Queries?" form. Your questions and feedback are important to us, and we're here to provide the answers and assistance you need. 
+							</p>
+
+							<p>
+
+							Our team is currently reviewing your submission, and we aim to get back to you as soon as possible, typically within 24 hours. We appreciate your patience and are committed to ensuring you receive a thorough and thoughtful response. 
+							</p>
+
+							<p>
+
+							For immediate assistance, feel free to contact us directly at <a href="mailto:support@qubicgen.com">support@qubicgen.com</a>
+							</p>
 							<h2>Additional Information:</h2>
 							<ul>
 									<li>Query Details: ${req.body.message}</li>
@@ -196,10 +210,15 @@ app.post('/api/queries', async (req, res) => {
 							<p>Best regards,</p>
 							<p>The QubicGen Team</p>
 					</div>
+
 					<div class="footer">
-							<p>Warm regards,</p>
-							<p>The QubicGen Team</p>
-					</div>
+    <p>Warm regards,</p>
+    <p>The QubicGen Team</p>
+    <p>Mail: <a href="mailto:support@qubicgen.com">support@qubicgen.com</a></p>
+    <p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
+    <p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>
+</div>
+
 			</body>
 			</html>
 			`,
