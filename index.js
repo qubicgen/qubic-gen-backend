@@ -156,7 +156,7 @@ app.post('/api/queries', async (req, res) => {
 		const clientMailOptions = {
 			from: 'support@qubicgen.com',
 			to: `${req.body.email}`,
-			subject: 'Query Received',
+			subject: 'Queriess Receivinggggg',
 			html: `
 			<html>
 			<head>
