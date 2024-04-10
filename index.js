@@ -136,13 +136,31 @@ app.post('/api/login', (request, response) => {
 
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
+const transporterService = nodemailer.createTransport({
 	host: 'smtp.hostinger.com',
 	port: 587,
 	secure: false, // true for 465, false for other ports
 	auth: {
-		user: `${process.env.EMAIL_SMTP}`,
-		pass: `${process.env.EMAIL_SMTP_PASS}`, // your password
+		user: `${process.env.SERVICES_SMTP}`,
+		pass: `${process.env.SERVICES_SMTP_PASS}`, // your password
+	},
+});
+const transporterSupport = nodemailer.createTransport({
+	host: 'smtp.hostinger.com',
+	port: 587,
+	secure: false, // true for 465, false for other ports
+	auth: {
+		user: `${process.env.SUPPORT_SMTP}`,
+		pass: `${process.env.SUPPORT_SMTP_PASS}`, // your password
+	},
+});
+const transporterTraining = nodemailer.createTransport({
+	host: 'smtp.hostinger.com',
+	port: 587,
+	secure: false, // true for 465, false for other ports
+	auth: {
+		user: `${process.env.TRAINING_SMTP}`,
+		pass: `${process.env.TRAINING_SMTP_PASS}`, // your password
 	},
 });
 
@@ -154,7 +172,7 @@ app.post('/api/queries', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: `${process.env.SUPPORT_SMTP}`,
 			to: `${req.body.email}`,
 			subject: 'Queries Received',
 			html: `
@@ -229,16 +247,16 @@ app.post('/api/queries', async (req, res) => {
 			],
 		};
 
-		await transporter.sendMail(clientMailOptions);
+		await transporterSupport.sendMail(clientMailOptions);
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
-			to: 'services@qubicgen.com', // your email
-			subject: 'New Query Received',
-			text: 'A new query has been received. Check your admin panel for details.',
+			from: clientMailOptions.from,
+			to: 'support@qubicgen.com', // your email
+			subject: `Duplicate ${clientMailOptions.subject}`,
+			text: clientMailOptions.html,
 		};
-		await transporter.sendMail(selfMailOptions);
+		await transporterSupport.sendMail(selfMailOptions);
 
 		res.status(201).json(savedQuery);
 	} catch (error) {
@@ -296,9 +314,7 @@ app.post('/api/job-application', async (req, res) => {
 			email: req.body.email,
 		});
 		if (existingJobApplication.selectedJobRole === req.body.selectedJobRole) {
-			return res
-				.status(400)
-				.json({ message: 'Already Applied' });
+			return res.status(400).json({ message: 'Already Applied' });
 		}
 
 		const newJobApplication = new JobApplication(req.body);
@@ -307,7 +323,7 @@ app.post('/api/job-application', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: `${process.env.SUPPORT_SMTP}`,
 			to: `${req.body.email}`,
 			subject: `Application Received: ${req.body.fullName} at QubicGen`,
 			html: `
@@ -387,16 +403,16 @@ app.post('/api/job-application', async (req, res) => {
 			],
 		};
 
-		await transporter.sendMail(clientMailOptions);
+		await transporterSupport.sendMail(clientMailOptions);
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
-			to: 'services@qubicgen.com', // your email
-			subject: `New Job Application Received - ${req.body.fullName}`,
-			text: `A new job application has been received. Check your admin panel for details from ${req.body.email}.`,
+			from: clientMailOptions.from,
+			to: 'support@qubicgen.com', // your email
+			subject: `Duplicate ${clientMailOptions.subject}`,
+			text: clientMailOptions.html,
 		};
-		await transporter.sendMail(selfMailOptions);
+		await transporterSupport.sendMail(selfMailOptions);
 
 		res.status(201).json(savedJobApplication);
 	} catch (error) {
@@ -413,7 +429,6 @@ app.post('/api/contact', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
 			to: `${req.body.email}`,
 			subject: 'Contact Form Received',
 			html: `
@@ -472,16 +487,24 @@ app.post('/api/contact', async (req, res) => {
 			],
 		};
 
-		await transporter.sendMail(clientMailOptions);
-
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
-			to: 'services@qubicgen.com',
-			subject: 'New Contact Form Received',
-			text: `A new contact form has been received. Check your admin panel for details. From ${req.body.email}`,
+			to: 'support@qubicgen.com', // your email
+			subject: `Duplicate ${clientMailOptions.subject}`,
+			text: clientMailOptions.html,
 		};
-		await transporter.sendMail(selfMailOptions);
+
+		if (req.body.type == 'project') {
+			clientMailOptions.from = `${process.env.SERVICES_SMTP}`;
+			selfMailOptions.from = `${process.env.SERVICES_SMTP}`;
+			await transporterService.sendMail(selfMailOptions);
+			await transporterTraining.sendMail(clientMailOptions);
+		} else {
+			clientMailOptions.from = `${process.env.TRAINING_SMTP}`;
+			selfMailOptions.from = `${process.env.TRAINING_SMTP}`;
+			await transporterTraining.sendMail(selfMailOptions);
+			await transporterTraining.sendMail(clientMailOptions);
+		}
 
 		res.status(201).json(savedContact);
 	} catch (error) {
@@ -489,8 +512,6 @@ app.post('/api/contact', async (req, res) => {
 		res.status(400).json({ message: error.message });
 	}
 });
-
-
 
 app.post('/api/getInTouch', async (req, res) => {
 	try {
@@ -502,7 +523,7 @@ app.post('/api/getInTouch', async (req, res) => {
 
 		// Send email to client
 		const clientMailOptions = {
-			from: 'services@qubicgen.com',
+			from: `${process.env.SUPPORT_SMTP}`,
 			to: `${req.body.email}`,
 			subject: 'Thank You for Getting in Touch with QubicGen! ',
 			html: `
@@ -589,16 +610,16 @@ app.post('/api/getInTouch', async (req, res) => {
 			],
 		};
 
-		await transporter.sendMail(clientMailOptions);
+		await transporterSupport.sendMail(clientMailOptions);
 
 		// Send email to yourself
 		const selfMailOptions = {
-			from: 'services@qubicgen.com',
-			to: 'services@qubicgen.com', // your email
-			subject: 'New Get In Touch Form Received',
-			text: 'A new get in touch form has been received. Check your admin panel for details.',
+			from: clientMailOptions.from,
+			to: 'support@qubicgen.com', // your email
+			subject: `Duplicate ${clientMailOptions.subject}`,
+			text: clientMailOptions.html,
 		};
-		await transporter.sendMail(selfMailOptions);
+		await transporterSupport.sendMail(selfMailOptions);
 
 		res.status(201).json(savedGetInTouch);
 	} catch (error) {
