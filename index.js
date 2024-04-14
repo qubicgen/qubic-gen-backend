@@ -209,10 +209,10 @@ app.post('/api/queries', async (req, res) => {
 							<p>Dear ${req.body.firstName} ${req.body.lastName},</p>
 							<p>
 
-							Thank you for reaching out to us with your query through our "Any Queries?" form. Your questions and feedback are important to us, and we're here to provide the answers and assistance you need. 
-							</p>
+							Thank you for reaching out to us with your query through our website. Your questions and feedback are important to us, and we're here to provide the answers and assistance you need.							</p>
 
 							<p>
+
 
 							Our team is currently reviewing your submission, and we aim to get back to you as soon as possible, typically within 24 hours. We appreciate your patience and are committed to ensuring you receive a thorough and thoughtful response. 
 							</p>
@@ -557,7 +557,7 @@ app.post('/api/getInTouch', async (req, res) => {
 							<p>Dear ${req.body.fullName},</p>
 							<p>
 
-							We're delighted to let you know that we've received your message through our "Get In Touch With Us" form. Thank you for reaching out! 
+							We're delighted to let you know that we've received your message. Thank you for reaching out! 
 
 							</p>
 
