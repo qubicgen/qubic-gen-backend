@@ -371,7 +371,7 @@ app.post('/api/job-application', async (req, res) => {
 
 							</P>
 							<h2>Additional Information:</h2>
-							<ul>
+							<ul style={{ listStyle: 'none' }}>
 							
 									<li>FullName: ${req.body.fullName}</li>
 									<li>Email: ${req.body.email}</li>
@@ -460,21 +460,54 @@ app.post('/api/contact', async (req, res) => {
 					</div>
 					<div class="body-content">
 							<p>Dear ${req.body.fullName},</p>
-							<p>Thank you for reaching out to us. We appreciate your interest in our services.</p>
-							<p>We have received your contact form and our team will review it promptly.</p>
+							<p>
+							Thank you for reaching out to us at QubicGen! We're excited to connect with you and have successfully received your inquiry. Our team is dedicated to providing you with the best possible service and will be reviewing your submission shortly.
+
+
+							</p>
+							<p>
+
+							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
+
+							</p>
 							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
-							<h2>Contact Form Details:</h2>
-							<ul>
-									<li>Contact Type: ${req.body.type}</li>
+
+
+							<h2>Here's what we received from you:
+</h2>
+							<ul style={{ listStyle: 'none' }} >
+									<li>Contact Type: ${req.body.fullName}</li>
+									<li>Contact Type: ${req.body.email}</li>
 									<li>Contact Message: ${req.body.message}</li>
 							</ul>
-							<p>Best regards,</p>
-							<p>The QubicGen Team</p>
+
+							<p>
+
+							In the meantime, if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at +91 9649749845 or reply to this email.
+
+							</p>
+
+							<p>
+
+							We aim to respond to all queries within 24-48 hours, and we appreciate your patience. 
+
+							
+							</p>
+
+							<p>
+							Thank you once again for contacting QubicGen. We're looking forward to assisting you and will be in touch soon!
+
+							</p>
+							
 					</div>
 					<div class="footer">
-							<p>Warm regards,</p>
-							<p>The QubicGen Team</p>
-					</div>
+					<p>Warm regards,</p>
+					<p>The QubicGen Hiring Team</p>
+				
+					<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
+					
+					<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
+			</div>
 			</body>
 			</html>
 			`,
@@ -584,15 +617,15 @@ app.post('/api/getInTouch', async (req, res) => {
 									<li>Contact Message: ${req.body.message}</li>
 							</ul>
 							<p>Best regards,</p>
+						
 							<div class="footer">
-									<p>Warm regards,</p>
-
-									<ul>
-
-									<p>mail: support@qubicgen.com </p>
-									<p>Mob. No: +91 9649749845 </p>
-									<p>www.qubicgen.com</p>
-							</ul>
+							<p>Warm regards,</p>
+							<p>The QubicGen Hiring Team</p>
+						
+							<p>Mail: <a href="mailto:support@qubicgen.com">support@qubicgen.com</a></p>
+							<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
+							
+							<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
 									
 									
 													
