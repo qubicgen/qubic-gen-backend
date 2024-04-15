@@ -254,7 +254,7 @@ app.post('/api/queries', async (req, res) => {
 			from: clientMailOptions.from,
 			to: 'support@qubicgen.com', // your email
 			subject: `Duplicate ${clientMailOptions.subject}`,
-			text: clientMailOptions.html,
+			html: clientMailOptions.html,
 		};
 		await transporterSupport.sendMail(selfMailOptions);
 
@@ -410,7 +410,7 @@ app.post('/api/job-application', async (req, res) => {
 			from: clientMailOptions.from,
 			to: 'support@qubicgen.com', // your email
 			subject: `Duplicate ${clientMailOptions.subject}`,
-			text: clientMailOptions.html,
+			html: clientMailOptions.html,
 		};
 		await transporterSupport.sendMail(selfMailOptions);
 
@@ -524,14 +524,14 @@ app.post('/api/contact', async (req, res) => {
 		const selfMailOptions = {
 			to: 'support@qubicgen.com', // your email
 			subject: `Duplicate ${clientMailOptions.subject}`,
-			text: clientMailOptions.html,
+			html: clientMailOptions.html,
 		};
 
 		if (req.body.type == 'project') {
 			clientMailOptions.from = `${process.env.SERVICES_SMTP}`;
 			selfMailOptions.from = `${process.env.SERVICES_SMTP}`;
 			await transporterService.sendMail(selfMailOptions);
-			await transporterTraining.sendMail(clientMailOptions);
+			await transporterService.sendMail(clientMailOptions);
 		} else {
 			clientMailOptions.from = `${process.env.TRAINING_SMTP}`;
 			selfMailOptions.from = `${process.env.TRAINING_SMTP}`;
@@ -650,7 +650,7 @@ app.post('/api/getInTouch', async (req, res) => {
 			from: clientMailOptions.from,
 			to: 'support@qubicgen.com', // your email
 			subject: `Duplicate ${clientMailOptions.subject}`,
-			text: clientMailOptions.html,
+			html: clientMailOptions.html,
 		};
 		await transporterSupport.sendMail(selfMailOptions);
 
