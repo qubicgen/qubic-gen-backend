@@ -575,7 +575,7 @@ app.post('/api/getInTouch', async (req, res) => {
 									padding: 20px;
 							}
 							.footer {
-									text-align: center;
+									text-align: left;
 									background-color: #f8f8f8;
 									padding: 10px;
 									margin-top: 20px;
@@ -616,7 +616,6 @@ app.post('/api/getInTouch', async (req, res) => {
 									<li>Email : ${req.body.email}</li>
 									<li>Contact Message: ${req.body.message}</li>
 							</ul>
-							<p>Best regards,</p>
 						
 							<div class="footer">
 							<p>Warm regards,</p>
