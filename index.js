@@ -189,10 +189,12 @@ app.post('/api/queries', async (req, res) => {
 									background-color: #f8f8f8;
 							}
 							.body-content {
+								text-align: left;
+
 									padding: 20px;
 							}
 							.footer {
-									text-align: center;
+									text-align: left;
 									background-color: #f8f8f8;
 									padding: 10px;
 									margin-top: 20px;
@@ -339,6 +341,7 @@ app.post('/api/job-application', async (req, res) => {
 									text-align: center;
 							}
 							.body-content {
+								text-align: left;
 									padding: 20px;
 							}
 							.footer {
@@ -370,16 +373,7 @@ app.post('/api/job-application', async (req, res) => {
 							We appreciate your interest in joining our team and wish you the best in your job search. 
 
 							</P>
-							<h2>Additional Information:</h2>
-							<ul style={{ listStyle: 'none' }}>
 							
-									<li>FullName: ${req.body.fullName}</li>
-									<li>Email: ${req.body.email}</li>
-									<li>Phone: ${req.body.phone}</li>
-									<li>Position Applied For: ${req.body.selectedJobRole}</li>
-									<li>Experience: ${req.body.workExperience.experienceLevel} years</li>
-									<li>Education: ${req.body.education.level} </li>
-							</ul>
 							
 					</div>
 					<div class="footer">
@@ -447,7 +441,7 @@ app.post('/api/contact', async (req, res) => {
 									padding: 20px;
 							}
 							.footer {
-									text-align: center;
+									text-align: left;
 									background-color: #f8f8f8;
 									padding: 10px;
 									margin-top: 20px;
@@ -469,6 +463,14 @@ app.post('/api/contact', async (req, res) => {
 
 							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
 
+Link to our Website: 					<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
+
+Link to our Blog:					<p><a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a></p>				
+
+
+
+
+
 							</p>
 							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
 
@@ -476,9 +478,9 @@ app.post('/api/contact', async (req, res) => {
 							<h2>Here's what we received from you:
 </h2>
 							<ul style={{ listStyle: 'none' }} >
-									<li>Contact Type: ${req.body.fullName}</li>
-									<li>Contact Type: ${req.body.email}</li>
-									<li>Contact Message: ${req.body.message}</li>
+									<li>Name: ${req.body.fullName}</li>
+									<li>Mail: ${req.body.email}</li>
+									<li> Message: ${req.body.message}</li>
 							</ul>
 
 							<p>
