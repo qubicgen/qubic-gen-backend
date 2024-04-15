@@ -189,7 +189,6 @@ app.post('/api/queries', async (req, res) => {
 									background-color: #f8f8f8;
 							}
 							.body-content {
-								text-align: left;
 
 									padding: 20px;
 							}
@@ -203,38 +202,30 @@ app.post('/api/queries', async (req, res) => {
 			</head>
 			<body>
 
+			<div class="header">
+        <img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
+    </div>
+    <div class="body-content">
+        <p>Dear ${req.body.firstName} ${req.body.lastName},</p>
+        <p>Thank you for reaching out to us with your query through our website. Your questions and feedback are important to us, and we're here to provide the answers and assistance you need.</p>
+        <p>Our team is currently reviewing your submission, and we aim to get back to you as soon as possible, typically within 24 hours. We appreciate your patience and are committed to ensuring you receive a thorough and thoughtful response.</p>
+        <p>For immediate assistance, feel free to contact us directly at <a href="mailto:services@qubicgen.com">services@qubicgen.com</a></p>
+        <ul>
+            <li>Query Details: ${req.body.message}</li>
+        </ul>
+    </div>
+    <div class="footer">
+        <p>
+            Warm regards, <br>
+            The QubicGen Team <br>
+            Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+            Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
+            <a href="https://www.qubicgen.com">www.qubicgen.com</a>
+        </p>
+    </div>
 
-					<div class="header">
-							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;>
-					</div>
-					<div class="body-content">
-							<p>Dear ${req.body.firstName} ${req.body.lastName},</p>
-							<p>
 
-							Thank you for reaching out to us with your query through our website. Your questions and feedback are important to us, and we're here to provide the answers and assistance you need.							</p>
-
-							<p>
-
-
-							Our team is currently reviewing your submission, and we aim to get back to you as soon as possible, typically within 24 hours. We appreciate your patience and are committed to ensuring you receive a thorough and thoughtful response. 
-							</p>
-
-							<p>
-
-							For immediate assistance, feel free to contact us directly at <a href="mailto:services@qubicgen.com">services@qubicgen.com</a>
-							</p>
-							<ul>
-									<li>Query Details: ${req.body.message}</li>
-							</ul>
-							
-							<div class="footer">
-			<p>Warm regards,</p>
-			<p>The QubicGen Team</p>
-			<p>Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a></p>
-			<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
-			<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>
-		</div>
-					</div>
+					
 
 
 			</body>
@@ -341,51 +332,36 @@ app.post('/api/job-application', async (req, res) => {
 									text-align: center;
 							}
 							.body-content {
-								text-align: left;
 									padding: 20px;
 							}
 							.footer {
-									text-align: center;
+									text-align: left;
 									background-color: #f8f8f8;
 									padding: 10px;
-									margin-top: 20px;
+									margin-top: 10px;
 							}
 					</style>
 			</head>
 			<body>
-					<div class="header">
-							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;>
-					</div>
-					<div class="body-content">
-							<p>Dear ${req.body.fullName},</p>
-							<p>
-
-							Thank you for applying for the ${req.body.selectedJobRole} position at QubicGen. We've received your application and are in the process of reviewing it.
-							</p>
-
-							<p>
-
-							If your profile matches our requirements, we'll contact you shortly to discuss the next steps. In the meantime, feel free to explore our work and culture on our website and social media channels. 
-
-							</p>
-							<P>
-
-							We appreciate your interest in joining our team and wish you the best in your job search. 
-
-							</P>
-							
-							
-					</div>
-					<div class="footer">
-							<p>Warm regards,</p>
-							<p>The QubicGen Hiring Team</p>
-						
-							<p>Mail: <a href="mailto:support@qubicgen.com">support@qubicgen.com</a></p>
-							<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
-							
-							<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
-					</div>
-			</body>
+    <div class="header">
+        <img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
+    </div>
+    <div class="body-content">
+        <p>Dear ${req.body.fullName},</p>
+        <p>Thank you for applying for the ${req.body.selectedJobRole} position at QubicGen. We've received your application and are in the process of reviewing it.</p>
+        <p>If your profile matches our requirements, we'll contact you shortly to discuss the next steps. In the meantime, feel free to explore our work and culture on our website and social media channels.</p>
+        <p>We appreciate your interest in joining our team and wish you the best in your job search.</p>
+    </div>
+    <div class="footer">
+        <p>
+            Warm regards, <br>
+            The QubicGen Team <br>
+            Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+            Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
+            <a href="https://www.qubicgen.com">www.qubicgen.com</a>
+        </p>
+    </div>
+</body>
 			</html>
 			`,
 			attachments: [
@@ -444,7 +420,7 @@ app.post('/api/contact', async (req, res) => {
 									text-align: left;
 									background-color: #f8f8f8;
 									padding: 10px;
-									margin-top: 20px;
+									margin-top: 10px;
 							}
 					</style>
 			</head>
@@ -459,13 +435,16 @@ app.post('/api/contact', async (req, res) => {
 
 
 							</p>
-							<p>
+							
 
 							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
+							<br>
 
-Link to our Website: 					<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
+Link to our Website: 	 				<a href="https://www.qubicgen.com">www.qubicgen.com</a>	
 
-Link to our Blog:					<p><a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a></p>				
+<br>
+
+Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a>		
 
 
 
@@ -485,7 +464,7 @@ Link to our Blog:					<p><a href="https://qubic-gen.blogspot.com/ ">https://qubi
 
 							<p>
 
-							In the meantime, if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at +91 9649749845 or reply to this email.
+							In the meantime, if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at <a href="tel:+919649749845">+91 9649749845</a> or reply to this email.
 
 							</p>
 
@@ -503,13 +482,14 @@ Link to our Blog:					<p><a href="https://qubic-gen.blogspot.com/ ">https://qubi
 							
 					</div>
 					<div class="footer">
-					<p>Warm regards,</p>
-					<p>The QubicGen Hiring Team</p>
-				
-					<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
-					
-					<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
-			</div>
+							<p>
+								Warm regards, <br>
+								The QubicGen Team <br>
+								Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+								Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
+								<a href="https://www.qubicgen.com">www.qubicgen.com</a>
+							</p>
+						</div>
 			</body>
 			</html>
 			`,
@@ -620,17 +600,15 @@ app.post('/api/getInTouch', async (req, res) => {
 							</ul>
 						
 							<div class="footer">
-							<p>Warm regards,</p>
-							<p>The QubicGen Hiring Team</p>
-						
-							<p>Mail: <a href="mailto:support@qubicgen.com">support@qubicgen.com</a></p>
-							<p>Mob. No: <a href="tel:+919649749845">+91 9649749845</a></p>
-							
-							<p><a href="https://www.qubicgen.com">www.qubicgen.com</a></p>				
-									
-									
-													
-							</div>
+							<p>
+								Warm regards, <br>
+								The QubicGen Team <br>
+								Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+								Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
+								<a href="https://www.qubicgen.com">www.qubicgen.com</a>
+							</p>
+						</div>
+					
 					</div>
 			</body>
 			</html>
