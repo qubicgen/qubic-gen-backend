@@ -8,13 +8,14 @@ const { Query } = require('./models/queryModel');
 const { JobApplication } = require('./models/jobApplicationModel');
 const { Contact } = require('./models/contactModel');
 const { GetInTouch } = require('./models/getIntouchModel');
+const Student = require('./models/studentModel');
+const  Project  = require('./models/projectModel');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const { ObjectId } = require('mongoose').Types;
-
 require('dotenv').config();
 mongoose.connect(`${process.env.MONGODB_URI}`);
 const conn = mongoose.connection;
@@ -24,7 +25,8 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-
+// app.use('/api',userRouter)
+// app.use('/api',projectRouter)
 let gfs;
 const uploadDirectory = './uploads';
 conn.once('open', () => {
@@ -528,6 +530,303 @@ Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-g
 	}
 });
 
+
+
+app.post('/api/student', async (req, res) => {
+	try {
+		const data = req.body
+		console.log(data)
+
+		const newContact = new Student(data);
+		const savedContact = await newContact.save();
+
+		// Send email to client
+		const clientMailOptions = {
+			to: `${req.body.email}`,
+			subject: 'Contact Form Received',
+			html: `
+			<html>
+			<head>
+					<style>
+							body {
+									font-family: Arial, sans-serif;
+									margin: 0;
+									padding: 0;
+							}
+							.header {
+									text-align: center;
+							}
+							.body-content {
+									padding: 20px;
+							}
+							.footer {
+									text-align: left;
+									background-color: #f8f8f8;
+									padding: 10px;
+									margin-top: 10px;
+							}
+					</style>
+			</head>
+			<body>
+					<div class="header">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
+					</div>
+					<div class="body-content">
+							<p>Dear ${req.body.fullName},</p>
+							<p>
+							Thank you for reaching out to us at QubicGen! We're excited to connect with you and have successfully received your inquiry. Our team is dedicated to providing you with the best possible service and will be reviewing your submission shortly.
+
+
+							</p>
+							
+
+							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
+							<br>
+
+Link to our Website: 	 				<a href="https://www.qubicgen.com">www.qubicgen.com</a>	
+
+<br>
+
+Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a>		
+
+
+
+
+
+							</p>
+							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
+
+
+							<h2>Here's what we received from you:
+</h2>
+							<ul style={{ listStyle: 'none' }} >
+									<li>Name: ${req.body.name}</li>
+									<li>Mail: ${req.body.email}</li>
+									<li> Message: ${req.body.message}</li>
+							</ul>
+
+							<p>
+
+							In the meantime, if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at <a href="tel:+919649749845">+91 9649749845</a> or reply to this email.
+
+							</p>
+
+							<p>
+
+							We aim to respond to all queries within 24-48 hours, and we appreciate your patience. 
+
+							
+							</p>
+
+							<p>
+							Thank you once again for contacting QubicGen. We're looking forward to assisting you and will be in touch soon!
+
+							</p>
+							
+					</div>
+					<div class="footer">
+							<p>
+								Warm regards, <br>
+								The QubicGen Team <br>
+								Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+								Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
+								<a href="https://www.qubicgen.com">www.qubicgen.com</a>
+							</p>
+						</div>
+			</body>
+			</html>
+			`,
+			attachments: [
+				{
+					filename: 'Qubicbg.png',
+					path: 'images/Qubicbg.png',
+					cid: 'headerImage',
+				},
+			],
+		};
+
+		// Send email to yourself
+		const selfMailOptions = {
+			to: 'support@qubicgen.com', // your email
+			subject: `Duplicate ${clientMailOptions.subject}`,
+			html: clientMailOptions.html,
+		};
+
+		if (req.body.type == 'project') {
+			clientMailOptions.from = `${process.env.SERVICES_SMTP}`;
+			selfMailOptions.from = `${process.env.SERVICES_SMTP}`;
+			await transporterService.sendMail(selfMailOptions);
+			await transporterService.sendMail(clientMailOptions);
+		} else {
+			clientMailOptions.from = `${process.env.TRAINING_SMTP}`;
+			selfMailOptions.from = `${process.env.TRAINING_SMTP}`;
+			await transporterTraining.sendMail(selfMailOptions);
+			await transporterTraining.sendMail(clientMailOptions);
+		}
+
+		res.status(201).json(savedContact);
+	} catch (error) {
+		console.log(error);
+		res.status(400).json({ message: error.message });
+	}
+});
+
+
+app.post('/api/project', async (req, res) => {
+	try {
+		console.log(req.body);
+
+		const newContact = new Project(req.body);
+		const savedContact = await newContact.save();
+
+		// Send email to client
+		const clientMailOptions = {
+			to: `${req.body.email}`,
+			subject: 'Contact Form Received',
+			html: `
+			<html>
+			<head>
+					<style>
+							body {
+									font-family: Arial, sans-serif;
+									margin: 0;
+									padding: 0;
+							}
+							.header {
+									text-align: center;
+							}
+							.body-content {
+									padding: 20px;
+							}
+							.footer {
+									text-align: left;
+									background-color: #f8f8f8;
+									padding: 10px;
+									margin-top: 10px;
+							}
+					</style>
+			</head>
+			<body>
+					<div class="header">
+							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
+					</div>
+					<div class="body-content">
+							<p>Dear ${req.body.name},</p>
+							<p>
+							Thank you for reaching out to us at QubicGen! We're excited to connect with you and have successfully received your inquiry. Our team is dedicated to providing you with the best possible service and will be reviewing your submission shortly.
+
+
+							</p>
+							
+
+							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
+							<br>
+
+Link to our Website: 	 				<a href="https://www.qubicgen.com">www.qubicgen.com</a>	
+
+<br>
+
+Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a>		
+
+
+
+
+
+							</p>
+							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
+
+
+							<h2>Here's what we received from you:
+</h2>
+							<ul style={{ listStyle: 'none' }} >
+									<li>Name: ${req.body.fullName}</li>
+									<li>Mail: ${req.body.email}</li>
+									<li> Message: ${req.body.message}</li>
+							</ul>
+
+							<p>
+
+							In the meantime, if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at <a href="tel:+919649749845">+91 9649749845</a> or reply to this email.
+
+							</p>
+
+							<p>
+
+							We aim to respond to all queries within 24-48 hours, and we appreciate your patience. 
+
+							
+							</p>
+
+							<p>
+							Thank you once again for contacting QubicGen. We're looking forward to assisting you and will be in touch soon!
+
+							</p>
+							
+					</div>
+					<div class="footer">
+							<p>
+								Warm regards, <br>
+								The QubicGen Team <br>
+								Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+								Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
+								<a href="https://www.qubicgen.com">www.qubicgen.com</a>
+							</p>
+						</div>
+			</body>
+			</html>
+			`,
+			attachments: [
+				{
+					filename: 'Qubicbg.png',
+					path: 'images/Qubicbg.png',
+					cid: 'headerImage',
+				},
+			],
+		};
+
+		// Send email to yourself
+		const selfMailOptions = {
+			to: 'support@qubicgen.com', // your email
+			subject: `Duplicate ${clientMailOptions.subject}`,
+			html: clientMailOptions.html,
+		};
+
+		if (req.body.type == 'project') {
+			clientMailOptions.from = `${process.env.SERVICES_SMTP}`;
+			selfMailOptions.from = `${process.env.SERVICES_SMTP}`;
+			await transporterService.sendMail(selfMailOptions);
+			await transporterService.sendMail(clientMailOptions);
+		} else {
+			clientMailOptions.from = `${process.env.TRAINING_SMTP}`;
+			selfMailOptions.from = `${process.env.TRAINING_SMTP}`;
+			await transporterTraining.sendMail(selfMailOptions);
+			await transporterTraining.sendMail(clientMailOptions);
+		}
+
+		res.status(201).json(savedContact);
+	} catch (error) {
+		console.log(error);
+		res.status(400).json({ message: error.message });
+	}
+});
+
+
+
+
+
+
+
+// Import the Project model
+
+
+
+
+
+
+
+
+
+
 app.post('/api/getInTouch', async (req, res) => {
 	try {
 		console.log(req.body);
@@ -656,7 +955,9 @@ app.get('/api/fetchData', async (req, res) => {
 			const jobApplications = await JobApplication.find({});
 			const contacts = await Contact.find({});
 			const getInTouches = await GetInTouch.find({});
-			const data = { queries, jobApplications, contacts, getInTouches };
+			const students = await Student.find({});
+			const projects = await Project.find({});
+			const data = { queries, jobApplications, contacts, getInTouches , students, projects };
 			res.status(200).json(data);
 		});
 	} catch (error) {
