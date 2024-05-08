@@ -532,6 +532,8 @@ Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-g
 
 
 
+
+
 app.post('/api/student', async (req, res) => {
 	try {
 		const data = req.body
@@ -543,7 +545,7 @@ app.post('/api/student', async (req, res) => {
 		// Send email to client
 		const clientMailOptions = {
 			to: `${req.body.email}`,
-			subject: 'Contact Form Received',
+			subject: 'Training Query Received',
 			html: `
 			<html>
 			<head>
@@ -572,29 +574,31 @@ app.post('/api/student', async (req, res) => {
 							<img src="cid:headerImage" alt="QubicGen Header" style="width: 10%; height: 10%;">
 					</div>
 					<div class="body-content">
-							<p>Dear ${req.body.fullName},</p>
+							<p>Dear ${req.body.name},</p>
 							<p>
-							Thank you for reaching out to us at QubicGen! We're excited to connect with you and have successfully received your inquiry. Our team is dedicated to providing you with the best possible service and will be reviewing your submission shortly.
+							Thank you for your interest in our training program at QubicGen. We appreciate you taking the time to fill out the inquiry form. 
+
+
+							</p>
+
+
+							<p>
+
+							Your inquiry has been successfully received, and we're excited to learn more about your training needs. Our team is currently reviewing your submission and will get back to you shortly with more information about the training program you're interested in. 
+							</p>
+							
+							
+
+
+							We look forward to potentially welcoming you to our training program and helping you achieve your learning goals. 
+
+
+
+
 
 
 							</p>
 							
-
-							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
-							<br>
-
-Link to our Website: 	 				<a href="https://www.qubicgen.com">www.qubicgen.com</a>	
-
-<br>
-
-Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a>		
-
-
-
-
-
-							</p>
-							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
 
 
 							<h2>Here's what we received from you:
@@ -602,6 +606,8 @@ Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-g
 							<ul style={{ listStyle: 'none' }} >
 									<li>Name: ${req.body.name}</li>
 									<li>Mail: ${req.body.email}</li>
+									<li>Number: ${req.body.phone}</li>
+									<li>Course Selected: ${req.body.course}</li>
 									<li> Message: ${req.body.message}</li>
 							</ul>
 
@@ -628,7 +634,7 @@ Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-g
 							<p>
 								Warm regards, <br>
 								The QubicGen Team <br>
-								Mail: <a href="mailto:services@qubicgen.com">services@qubicgen.com</a> <br>
+								Mail: <a href="mailto:trainings@qubicgen.com">trainings@qubicgen.com</a> <br>
 								Mob. No: <a href="tel:+919649749845">+91 9649749845</a><br>
 								<a href="https://www.qubicgen.com">www.qubicgen.com</a>
 							</p>
@@ -682,7 +688,7 @@ app.post('/api/project', async (req, res) => {
 		// Send email to client
 		const clientMailOptions = {
 			to: `${req.body.email}`,
-			subject: 'Contact Form Received',
+			subject: 'Your Project Inquiry Received - QubicGen',
 			html: `
 			<html>
 			<head>
@@ -713,54 +719,46 @@ app.post('/api/project', async (req, res) => {
 					<div class="body-content">
 							<p>Dear ${req.body.name},</p>
 							<p>
-							Thank you for reaching out to us at QubicGen! We're excited to connect with you and have successfully received your inquiry. Our team is dedicated to providing you with the best possible service and will be reviewing your submission shortly.
-
+							Thank you for reaching out to us at QubicGen with your project inquiry. We're excited about the possibility of working together and contributing to the success of your project. 
 
 							</p>
 							
 
-							While you wait, we thought you might be interested in exploring some of the resources we have available on our website, or perhaps check out our latest blog posts and updates:
-							<br>
-
-Link to our Website: 	 				<a href="https://www.qubicgen.com">www.qubicgen.com</a>	
-
-<br>
-
-Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-gen.blogspot.com/ </a>		
+						<p>
+						Your inquiry has been received, and our team is currently reviewing the details you've provided. We aim to get back to you with our initial thoughts and potential next steps within 24 hours. This will include any additional questions we may have or suggestions to ensure that we fully understand your needs and goals. 
 
 
+						
+						
+						</p>
 
 
+						<h2>Here's what we received from you:
+						</h2>
+													<ul style={{ listStyle: 'none' }} >
+															<li>Name: ${req.body.name}</li>
+															<li>Mail: ${req.body.email}</li>
+															<li>Number: ${req.body.phone} </li>
+															<li> Message: ${req.body.message}</li>
+													</ul>
+						<p>
 
-							</p>
-							<p>If you have any further questions or concerns, please don't hesitate to reach out to us.</p>
+						In the meantime, we invite you to visit our portfolio on our website to get a glimpse of our services. if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at <a href="tel:+919649749845">+91 9649749845</a> or reply to this email.
 
+						
+						</p>
 
-							<h2>Here's what we received from you:
-</h2>
-							<ul style={{ listStyle: 'none' }} >
-									<li>Name: ${req.body.fullName}</li>
-									<li>Mail: ${req.body.email}</li>
-									<li> Message: ${req.body.message}</li>
-							</ul>
-
-							<p>
-
-							In the meantime, if you have any additional information to add to your query or if you require immediate assistance, please feel free to contact us directly at <a href="tel:+919649749845">+91 9649749845</a> or reply to this email.
 
 							</p>
-
 							<p>
-
-							We aim to respond to all queries within 24-48 hours, and we appreciate your patience. 
+							We appreciate you considering QubicGen for your project needs. Looking forward to the opportunity to discuss how we can bring your vision to life. 
 
 							
 							</p>
 
-							<p>
-							Thank you once again for contacting QubicGen. We're looking forward to assisting you and will be in touch soon!
 
-							</p>
+
+						
 							
 					</div>
 					<div class="footer">
@@ -809,6 +807,10 @@ Link to our Blog:					<a href="https://qubic-gen.blogspot.com/ ">https://qubic-g
 		res.status(400).json({ message: error.message });
 	}
 });
+
+
+
+
 
 
 
