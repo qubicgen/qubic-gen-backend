@@ -305,12 +305,12 @@ app.post('/api/job-application', async (req, res) => {
 		console.log(req.body, 'rekljaaaaa');
 
 		// Check for duplicate email
-		const existingJobApplication = await JobApplication.findOne({
-			email: req.body.email,
-		});
-		if (existingJobApplication.selectedJobRole === req.body.selectedJobRole) {
-			return res.status(400).json({ message: 'Already Applied' });
-		}
+		// const existingJobApplication = await JobApplication.findOne({
+		// 	email: req.body.email,
+		// });
+		// if (existingJobApplication.selectedJobRole === req.body.selectedJobRole) {
+		// 	return res.status(400).json({ message: 'Already Applied' });
+		// }
 
 		const newJobApplication = new JobApplication(req.body);
 		// newJobApplication.resume = req.file._id || req.file.id;
